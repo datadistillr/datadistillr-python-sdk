@@ -15,7 +15,7 @@ from setuptools import setup, find_packages
 """
 
 setup_args = dict(
-    name='DataDistillr',
+    name='datadistillr',
     version='0.1.0',
     author='Charles Givre',
     author_email='charles@datadistillr.com',
@@ -24,6 +24,7 @@ setup_args = dict(
     license="Apache",
     description='A Python SDK for interacting with datasets created on DataDistillr',
     long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
     install_requires=[
         "pandas",
         "requests"
