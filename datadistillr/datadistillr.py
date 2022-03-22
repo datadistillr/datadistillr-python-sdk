@@ -3,6 +3,7 @@ import requests
 from datadistillr import AuthorizationException
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
+
 class datadistillr:
 
     @staticmethod
@@ -20,6 +21,28 @@ class datadistillr:
         :param api_key: Your unique dataset API key
         :return: A Pandas DataFrame of your data.
         '''
+        response = datadistillr.make_api_call(url, api_key)
+
+        schema = response.json()['summary']['columnNames']
+        data = response.json()['results']
+
+        # Since we already retrieved the first page, decrement this by 1
+        pageCount = response.json()['summary']['totalPages'] - 1
+        while pageCount > 0:
+            # Make next API call
+            nextUrl = response.json()['summary']['nextPage']
+            response = datadistillr.make_api_call(nextUrl, api_key)
+
+            #Append the data
+            next_page = response.json()['results']
+            data.extend(next_page)
+            pageCount -= pageCount
+
+        print(data)
+        return pd.DataFrame(data, columns=schema)
+
+    @staticmethod
+    def make_api_call(url, api_key):
         headers = {"Authorization": api_key}
         if "devapp.datadistillr" in url:
             requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -32,7 +55,8 @@ class datadistillr:
             raise AuthorizationException(url, "You are not authorized to access this resource.")
         # TODO Add more error response codes
 
-        return pd.DataFrame(response.json()['results'], columns=response.json()['summary']['columnNames'])
+        return response
+
 
     @staticmethod
     def get_csv_from_api(url, api_key, filename):
