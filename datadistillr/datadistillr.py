@@ -38,7 +38,6 @@ class datadistillr:
             data.extend(next_page)
             pageCount -= pageCount
 
-        print(data)
         return pd.DataFrame(data, columns=schema)
 
     @staticmethod
