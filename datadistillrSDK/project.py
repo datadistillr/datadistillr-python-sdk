@@ -7,5 +7,3 @@ class project:
         self.details_json = proj_details
         self.name = self.details_json["name"]
         self.project_token = self.details_json["token"]
-
-        pass

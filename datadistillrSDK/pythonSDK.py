@@ -17,7 +17,6 @@ class datadistillr:
         self.password = password
         self.login_resp_json = self.login()
         self.is_logged_in = self.login_resp_json["loggedIn"]
-        pass
 
     def login(self):
         """Takes in email and password, converts to dictionary, then converts to JSON, and posts the user info to the login page"""
