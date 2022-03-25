@@ -1,7 +1,7 @@
 import unittest
 import requests
-import datadistillr.datadistillr as ddr
-from datadistillr.auth_exceptions import AuthorizationException
+import datadistillrSDK.datadistillr as ddr
+from datadistillrSDK.auth_exceptions import AuthorizationException
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 

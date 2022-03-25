@@ -20,7 +20,7 @@ See https://docs.datadistillr.com/ddr/ for complete documentation on obtaining t
 ### Usage 
 Using the SDK in Python code is quite simple.  See the snippet below:
 ```python
-import datadistillr.datadistillr as ddr
+import datadistillrSDK.datadistillr as ddr
 url = <Your URL From DataDistillr>
 auth_token = <AUTH TOKEN>
 dataframe = ddr.datadistillr.get_dataframe(url, auth_token)

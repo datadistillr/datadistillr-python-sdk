@@ -15,11 +15,11 @@ from setuptools import setup, find_packages
 """
 
 setup_args = dict(
-    name='datadistillr',
+    name='datadistillrSDK',
     version='0.1.2',
     author='Charles Givre',
     author_email='charles@datadistillr.com',
-    packages=find_packages(include=['datadistillr', 'datadistillr.*']),
+    packages=find_packages(include=['datadistillrSDK', 'datadistillrSDK.*']),
     url='https://github.com/datadistillr/datadistillr-python-sdk',
     license="Apache",
     description='A Python SDK for interacting with datasets created on DataDistillr',
