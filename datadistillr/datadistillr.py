@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
-from datadistillrSDK import AuthorizationException
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from auth_exceptions import AuthorizationException
 
 
 class datadistillr:
@@ -43,7 +43,7 @@ class datadistillr:
     @staticmethod
     def make_api_call(url, api_key):
         headers = {"Authorization": api_key}
-        if "devapp.datadistillrSDK" in url:
+        if "app.datadistillr" in url:
             requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
             response = requests.get(url, headers=headers, verify=False)
         else:

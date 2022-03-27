@@ -1,9 +1,9 @@
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from datadistillrSDK.project import project
+from project import Project
 
 
-class Datadistillr:
+class DatadistillrAccount:
     """
     This is a class for getting account level data from Datadistillr account.
 
@@ -12,10 +12,10 @@ class Datadistillr:
             password (string): The password linked to Datadistillr account.
     """
 
-    base_url = "https://app.datadistillr.io/api/"
-    login_page = base_url + "login"
-    organizations_list = organizations = base_url + "organization"
-    logout_page = base_url + 'logout'
+    BASE_URL = "https://app.datadistillr.io/api/"
+    LOGIN_PAGE = BASE_URL + "login"
+    ORGANIZATIONS_LIST = BASE_URL + "organization"
+    LOGOUT_PAGE = BASE_URL + 'logout'
 
     def __init__(self, email, password):
         """
@@ -55,7 +55,7 @@ class Datadistillr:
                 "teamInvitationToken": None}
         }
 
-        login_response = self.session.post(url=self.login_page, json=user_info, verify=False)
+        login_response = self.session.post(url=self.LOGIN_PAGE, json=user_info, verify=False)
         login_resp_json = login_response.json()
         return login_resp_json
 
@@ -67,7 +67,7 @@ class Datadistillr:
             json: A json containing account details and login status.
         """
 
-        logout_response = self.session.get(url=self.logout_page, verify=False)
+        logout_response = self.session.get(url=self.LOGOUT_PAGE, verify=False)
         logout_resp_json = logout_response.json()
         self.is_logged_in = logout_resp_json["loggedIn"]
         return logout_resp_json
@@ -81,11 +81,11 @@ class Datadistillr:
         """
 
         if not self.is_logged_in:
-            return "login is incorrect"
+            raise Exception("login is incorrect")
 
         # URL to get project needs active org token, URL format may change
         org_token = self.login_resp_json["activeOrganization"]["token"]
-        projects_page = self.base_url + "organization/" + str(org_token) + "/projects"
+        projects_page = self.BASE_URL + "organization/" + str(org_token) + "/projects"
         projects_response = self.session.get(url=projects_page, verify=False)
 
         # Converts response to JSON
@@ -97,7 +97,7 @@ class Datadistillr:
 
         for i in range(len(proj_list)):
             # create new project object with json
-            proj_object = project(proj_list[i], self.session)
+            proj_object = Project(proj_list[i], self.session)
             proj_object_list.append(proj_object)
 
         return proj_object_list
@@ -114,7 +114,7 @@ class Datadistillr:
         """
 
         if not self.is_logged_in:
-            return "login is incorrect"
+            raise Exception("login is incorrect")
 
         proj_list = self.get_projects()
         for i in range(len(proj_list)):
@@ -132,8 +132,8 @@ class Datadistillr:
         """
 
         if not self.is_logged_in:
-            return "login is incorrect"
+            raise Exception("login is incorrect")
 
-        organizations_response = self.session.get(url=self.organizations_list, verify=False)
+        organizations_response = self.session.get(url=self.ORGANIZATIONS_LIST, verify=False)
         organizations_resp_json = organizations_response.json()
         return organizations_resp_json["organizations"]

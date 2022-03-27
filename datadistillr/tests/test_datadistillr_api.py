@@ -1,7 +1,7 @@
 import unittest
 import requests
-import datadistillrSDK.datadistillr as ddr
-from datadistillrSDK.auth_exceptions import AuthorizationException
+import datadistillr.datadistillr as ddr
+from datadistillr.auth_exceptions import AuthorizationException
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -9,12 +9,12 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 class ddr_api_test(unittest.TestCase):
 
     def test_failed_api_call(self):
-        url = "https://devapp.datadistillr.io/v1/results/27921499"
+        url = "https://app.datadistillr.io/v1/results/27921499"
         auth = "no_auth"
         try:
             ddr.datadistillr.get_dataframe(url, auth)
         except AuthorizationException as e:
-            self.assertEqual(e.url, "https://devapp.datadistillr.io/v1/results/27921499")
+            self.assertEqual(e.url, "https://app.datadistillr.io/v1/results/27921499")
             self.assertTrue((str(e.message).startswith("You are not authorized to access this resource.")))
 
     def test_successful_call(self):
