@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-from setuptools import setup, find_packages
-
 """
    Copyright 2021 DataDistillr Inc.
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +11,8 @@ from setuptools import setup, find_packages
    See the License for the specific language governing permissions and
    limitations under the License.
 """
+
+from setuptools import setup, find_packages
 
 setup_args = dict(
     name='datadistillrSDK',

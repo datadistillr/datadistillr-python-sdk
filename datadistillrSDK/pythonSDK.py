@@ -2,28 +2,53 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from datadistillrSDK.project import project
 
-class datadistillr:
+
+class Datadistillr:
+    """
+    This is a class for getting account level data from Datadistillr account.
+
+    Attributes:
+            email (string): The email linked to Datadistillr account.
+            password (string): The password linked to Datadistillr account.
+    """
+
     base_url = "https://app.datadistillr.io/api/"
     login_page = base_url + "login"
     organizations_list = organizations = base_url + "organization"
     logout_page = base_url + 'logout'
 
     def __init__(self, email, password):
-        """Creates session"""
+        """
+        The constructor for Datadistillr class. Creates a session.
+
+        Parameters:
+            email (string): The email linked to Datadistillr account.
+            password (string): The password linked to Datadistillr account.
+        """
+
         requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         # stores cookies, so you can make requests without multiple logins (pass around cookie)
         self.session = requests.Session()
         self.email = email
         self.password = password
-        self.login_resp_json = self.login()
+        self.login_resp_json = self.login(self.email, self.password)
         self.is_logged_in = self.login_resp_json["loggedIn"]
 
-    def login(self):
-        """Takes in email and password, converts to dictionary, then converts to JSON, and posts the user info to the login page"""
-        print("logging in ...")
+    def login(self, email, password):
+        """
+        Login and authenticate to DataDistillr.
+
+        Parameters:
+            email (string): The email linked to account.
+            password (string): The password linked to account.
+
+        Returns:
+            json: A json containing account details and login status.
+        """
+
         user_info = {
-            "email": self.email,
-            "password": self.password,
+            "email": email,
+            "password": password,
             "invitations": {
                 "organizationInvitationToken": None,
                 "projectInvitationToken": None,
@@ -35,16 +60,26 @@ class datadistillr:
         return login_resp_json
 
     def logout(self):
-        """Logout user out of DataDistillr platform page"""
+        """
+        Log user out of DataDistillr account.
+
+        Returns:
+            json: A json containing account details and login status.
+        """
+
         logout_response = self.session.get(url=self.logout_page, verify=False)
         logout_resp_json = logout_response.json()
         self.is_logged_in = logout_resp_json["loggedIn"]
         return logout_resp_json
 
-    # Returns a list of project objects to which the user has access.
     def get_projects(self):
-        """Gets projects page"""
-        # check if login is correct
+        """
+        Gets all projects in DataDistillr account.
+
+        Returns:
+            list<project>: A list of project objects
+        """
+
         if not self.is_logged_in:
             return "login is incorrect"
 
@@ -65,12 +100,19 @@ class datadistillr:
             proj_object = project(proj_list[i], self.session)
             proj_object_list.append(proj_object)
 
-        # Returns list of the project object
         return proj_object_list
 
-    # Retrieves an individual project object
     def get_project(self, project_name):
-        # check if login is correct
+        """
+        Gets an individual project object.
+
+        Parameters:
+            project_name (string): The name of a project in DataDistillr account.
+
+        Returns:
+            project: A project object. If project_name does not match existing projects, it returns "project not found".
+        """
+
         if not self.is_logged_in:
             return "login is incorrect"
 
@@ -81,11 +123,17 @@ class datadistillr:
                 return proj_object
         return "project not found"
 
-    # Returns a list of organizations the user has access.
     def get_organizations(self):
-        # check if login is correct
+        """
+        Gets all organizations that the user has access to.
+
+        Returns:
+            list: A list of organizations that the user has access to.
+        """
+
         if not self.is_logged_in:
             return "login is incorrect"
+
         organizations_response = self.session.get(url=self.organizations_list, verify=False)
         organizations_resp_json = organizations_response.json()
         return organizations_resp_json["organizations"]
