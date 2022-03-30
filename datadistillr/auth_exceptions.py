@@ -26,10 +26,8 @@ class AuthorizationException(Exception):
         super().__init__(self.message)
 
     def __str__(self):
-        return repr(
-            "{msg} {type} {url}".format(
-                msg=self.message,
-                type="Authentication Error: You are not authorized to access this resource: ",
-                url=self.url,
-            )
-        )
+        msg = self.message
+        msg_type = "Authentication Error: You are not authorized to access this resource: "
+        url = self.url
+        return repr(f"{msg} {msg_type} {url}")
+

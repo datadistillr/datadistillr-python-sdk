@@ -13,34 +13,34 @@
 """
 
 from setuptools import setup, find_packages
-
-setup_args = dict(
-    name='datadistillr',
-    version='0.1.2',
-    author='Charles Givre',
-    author_email='charles@datadistillr.com',
-    packages=find_packages(include=['datadistillr', 'datadistillr.*']),
-    url='https://github.com/datadistillr/datadistillr-python-sdk',
-    license="Apache",
-    description='A Python SDK for interacting with datasets created on DataDistillr',
-    long_description=open('README.md').read(),
-    long_description_content_type="text/markdown",
-    install_requires=[
-        "pandas",
-        "requests"
-    ],
-    classifiers=[
-        'Intended Audience :: Developers',
-        'Intended Audience :: System Administrators',
-        'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: Apache Software License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: SQL',
-        'Operating System :: OS Independent',
-        'Topic :: Database'
-    ]
-)
+with open('README.md', encoding="utf8") as readme_file:
+    setup_args = dict(
+        name='datadistillr',
+        version='0.1.2',
+        author='Charles Givre',
+        author_email='charles@datadistillr.com',
+        packages=find_packages(include=['datadistillr', 'datadistillr.*']),
+        url='https://github.com/datadistillr/datadistillr-python-sdk',
+        license="Apache",
+        description='A Python SDK for interacting with datasets created on DataDistillr',
+        long_description=readme_file.read(),
+        long_description_content_type="text/markdown",
+        install_requires=[
+            "pandas",
+            "requests"
+        ],
+        classifiers=[
+            'Intended Audience :: Developers',
+            'Intended Audience :: System Administrators',
+            'Intended Audience :: Science/Research',
+            'License :: OSI Approved :: Apache Software License',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 3',
+            'Programming Language :: SQL',
+            'Operating System :: OS Independent',
+            'Topic :: Database'
+        ]
+    )
 
 
 def main():

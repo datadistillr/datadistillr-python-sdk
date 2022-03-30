@@ -24,8 +24,8 @@ class DatadistillrApiTest(unittest.TestCase):
             ddr.Datadistillr.get_dataframe(url, auth)
         except ddr.AuthorizationException as exception:
             self.assertEqual(exception.url, "https://app.datadistillr.io/v1/results/27921499")
-            self.assertTrue((str(exception.message).startswith("You are not authorized to access "
-                                                               "this resource.")))
+            self.assertTrue((str(exception).startswith("You are not authorized to access "
+                                                       "this resource.")))
 
     def test_successful_call(self):
         """
