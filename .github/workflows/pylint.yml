@@ -23,15 +23,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
 
-
-    # Dependencies with pipenv
-    - name: Install dependencies with pipenv
-      run: |
-        python3 -m pip install pipenv
-        python3 -m pipenv sync --python 3.8
-      env:
-        PIPENV_VENV_IN_PROJECT: 1
-
     # Now we move the dependencies where super-linter can see them
     - name: Move the dependencies
       run: mv .venv /home/runner/work/_temp/_github_workflow
