@@ -99,7 +99,7 @@ class DatadistillrAccount:
         proj_list = proj_resp_json["projects"]
         proj_object_list = []
 
-        for i, proj in enumerate(proj_list):
+        for proj in proj_list:
             # create new project object with json
             proj_object = Project(proj, self.session)
             proj_object_list.append(proj_object)
@@ -122,7 +122,7 @@ class DatadistillrAccount:
             raise Exception("login is incorrect")
 
         proj_obj_list = self.get_projects()
-        for i, proj_object in enumerate(proj_obj_list):
+        for proj_object in proj_obj_list:
             if proj_object.name == project_name:
                 return proj_object
         return "project not found"

@@ -44,6 +44,9 @@ setup_args = dict(
 
 
 def main():
+    """
+    Setup for package.
+    """
     setup(**setup_args)
 
 

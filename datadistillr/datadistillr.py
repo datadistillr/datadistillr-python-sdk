@@ -9,6 +9,9 @@ from auth_exceptions import AuthorizationException
 
 
 class Datadistillr:
+    """
+    This class is for getting data from API Access Clients in Datadistillr account.
+    """
 
     @staticmethod
     def get_dataframe(url, api_key):
@@ -46,12 +49,25 @@ class Datadistillr:
 
     @staticmethod
     def make_api_call(url, api_key):
+        """
+        This function allows you to programmatically access data from DataDistillr.
+        DataDistillr allows you to publish your data by generating an API Endpoint.
+        To access your data, you will need an endpoint URL and an Authorization token. You can
+        obtain both of these items in DataDistillr under the API Endpoints section.
+
+        If the authorization is not successful this function throws an AuthorizationException.
+
+        Full documentation is available here: https://docs.datadistillr.com/ddr/
+        :param url:  Your dataset API URL
+        :param api_key: Your unique dataset API key
+        :return: response object from API call.
+        """
         headers = {"Authorization": api_key}
         requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         response = requests.get(url, headers=headers, verify=False)
 
         # Case for unauthorized access
-        if response.status_code == 401 or response.status_code == 403:
+        if response.status_code in (401, 403):
             raise AuthorizationException(url, "You are not authorized to access this resource.")
         # TODO Add more error response codes
 
