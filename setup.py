@@ -11,8 +11,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-
+from pathlib import Path
 from setuptools import setup, find_packages
+this_directory = Path(__file__).parent
 
 setup_args = dict(
     name='datadistillr',
@@ -23,7 +24,7 @@ setup_args = dict(
     url='https://github.com/datadistillr/datadistillr-python-sdk',
     license="Apache",
     description='A Python SDK for interacting with datasets created on DataDistillr',
-    long_description=open('README.md').read(),
+    long_description = (this_directory / "README.md").read_text(encoding='utf-8'),
     long_description_content_type="text/markdown",
     install_requires=[
         "pandas",
@@ -45,9 +46,12 @@ setup_args = dict(
 
 
 def main():
+    """
+    Runs the setup of DataDistillr.
+    :return: Nothing
+    """
     setup(**setup_args)
 
 
 if __name__ == '__main__':
     main()
-
