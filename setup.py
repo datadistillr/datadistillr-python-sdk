@@ -12,22 +12,22 @@
    limitations under the License.
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
-setup(
+setup_args = dict(
     name='datadistillr',
     version='0.1.2',
     author='Charles Givre',
     author_email='charles@datadistillr.com',
-    packages=['datadistillr', 'datadistillr.*'],
+    packages=find_packages(include=['datadistillr', 'datadistillr.*']),
     url='https://github.com/datadistillr/datadistillr-python-sdk',
     license="Apache",
     description='A Python SDK for interacting with datasets created on DataDistillr',
-    long_description=open('README.md', encoding="utf8").read(),
+    long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     install_requires=[
-        'pandas',
-        'requests'
+        "pandas",
+        "requests"
     ],
     classifiers=[
         'Intended Audience :: Developers',
@@ -41,3 +41,12 @@ setup(
         'Topic :: Database'
     ]
 )
+
+
+def main():
+    setup(**setup_args)
+
+
+if __name__ == '__main__':
+    main()
+
