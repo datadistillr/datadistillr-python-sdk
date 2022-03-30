@@ -4,8 +4,8 @@ This file defines the class for getting data from API Access Clients in Datadist
 
 import pandas as pd
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from auth_exceptions import AuthorizationException
+from urllib3.exceptions import InsecureRequestWarning
+from datadistillr.auth_exceptions import AuthorizationException
 
 
 class Datadistillr:

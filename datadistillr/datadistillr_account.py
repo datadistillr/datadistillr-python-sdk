@@ -3,8 +3,7 @@ This file defines the class for getting account level data from Datadistillr acc
 """
 
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from project import Project
+from datadistillr.project import Project
 
 
 class DatadistillrAccount:
@@ -30,7 +29,7 @@ class DatadistillrAccount:
             password (string): The password linked to Datadistillr account.
         """
 
-        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+        requests.packages.urllib3.disable_warnings()
         # stores cookies, so you can make requests without multiple logins (pass around cookie)
         self.session = requests.Session()
         self.email = email

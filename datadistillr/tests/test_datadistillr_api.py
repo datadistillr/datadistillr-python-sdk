@@ -3,9 +3,8 @@ This file is for testing the datadistillr API calls.
 """
 import unittest
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import datadistillr as ddr
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+requests.packages.urllib3.disable_warnings()
 
 
 class DatadistillrApiTest(unittest.TestCase):

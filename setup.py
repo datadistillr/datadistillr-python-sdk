@@ -27,7 +27,8 @@ setup_args = dict(
     long_description_content_type="text/markdown",
     install_requires=[
         "pandas",
-        "requests"
+        "requests",
+        "urllib3"
     ],
     classifiers=[
         'Intended Audience :: Developers',
