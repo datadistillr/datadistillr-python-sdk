@@ -1,3 +1,7 @@
+"""
+This file defines the class for getting account level data from Datadistillr account.
+"""
+
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from project import Project
@@ -95,9 +99,9 @@ class DatadistillrAccount:
         proj_list = proj_resp_json["projects"]
         proj_object_list = []
 
-        for i in range(len(proj_list)):
+        for i, proj in enumerate(proj_list):
             # create new project object with json
-            proj_object = Project(proj_list[i], self.session)
+            proj_object = Project(proj, self.session)
             proj_object_list.append(proj_object)
 
         return proj_object_list
@@ -110,15 +114,15 @@ class DatadistillrAccount:
             project_name (string): The name of a project in DataDistillr account.
 
         Returns:
-            project: A project object. If project_name does not match existing projects, it returns "project not found".
+            project: A project object. If project_name does not match existing projects, it returns
+            "project not found".
         """
 
         if not self.is_logged_in:
             raise Exception("login is incorrect")
 
-        proj_list = self.get_projects()
-        for i in range(len(proj_list)):
-            proj_object = proj_list[i]
+        proj_obj_list = self.get_projects()
+        for i, proj_object in enumerate(proj_obj_list):
             if proj_object.name == project_name:
                 return proj_object
         return "project not found"

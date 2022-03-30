@@ -1,3 +1,6 @@
+"""
+This file is for testing the datadistillr API calls.
+"""
 import unittest
 import requests
 import datadistillr.datadistillr as ddr
@@ -6,18 +9,30 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-class ddr_api_test(unittest.TestCase):
+class DatadistillrApiTest(unittest.TestCase):
+    """
+    This class is for testing the datadistillr API calls.
+    """
 
     def test_failed_api_call(self):
+        """
+        Tests that API call returns authorization error message if authorization token is incorrect.
+        """
+
         url = "https://app.datadistillr.io/v1/results/27921499"
         auth = "no_auth"
         try:
             ddr.datadistillr.get_dataframe(url, auth)
         except AuthorizationException as e:
             self.assertEqual(e.url, "https://app.datadistillr.io/v1/results/27921499")
-            self.assertTrue((str(e.message).startswith("You are not authorized to access this resource.")))
+            self.assertTrue((str(e.message).startswith("You are not authorized to access this "
+                                                       "resource.")))
 
     def test_successful_call(self):
+        """
+        Tests that API call returns expected values.
+        """
+
         url = "https://app.datadistillr.io/v1/results/614364805"
         auth_token = "DDR1-HMAC-SHA256 Credential=b3880a85e304170f1b24ad8d3334845f " \
                      "Signature=f8c78f8b2e6b69ad79a44bfb441b2b6e06ec0b037184ecbd44cf45f2c82c78b6"
