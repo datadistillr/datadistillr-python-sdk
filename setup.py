@@ -18,7 +18,7 @@ this_directory = Path(__file__).parent
 setup_args = dict(
     name='datadistillr',
     version='0.1.2',
-    author='Charles Givre',
+    author='Charles Givre, Amanda Ha, Andrea Ha, Sanaa Mironov',
     author_email='charles@datadistillr.com',
     packages=find_packages(include=['datadistillr', 'datadistillr.*']),
     url='https://github.com/datadistillr/datadistillr-python-sdk',
