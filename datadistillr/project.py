@@ -24,7 +24,7 @@ class Project:
         self.name = self.details_json["name"]
         self.project_token = self.details_json["token"]
 
-    def _get_project_barrel_token(self, tab_name):
+    def get_project_barrel_token(self, tab_name):
         """
         Gets barrel token associated with tab within project.
 
@@ -51,5 +51,3 @@ class Project:
         # added function to pass pylint
         print(tab_name)
         return self.details_json
-
-
