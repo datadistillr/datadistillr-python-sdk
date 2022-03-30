@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies with pipenv
       run: |
         python3 -m pip install pipenv
-        python3 -m pipenv sync --python 3.6
+        python3 -m pipenv sync --python 3.8
       env:
         PIPENV_VENV_IN_PROJECT: 1
 
