@@ -12,43 +12,32 @@
    limitations under the License.
 """
 
-from setuptools import setup, find_packages
-with open('README.md', encoding="utf8") as readme_file:
-    setup_args = dict(
-        name='datadistillr',
-        version='0.1.2',
-        author='Charles Givre',
-        author_email='charles@datadistillr.com',
-        packages=find_packages(include=['datadistillr', 'datadistillr/*.py']),
-        url='https://github.com/datadistillr/datadistillr-python-sdk',
-        license="Apache",
-        description='A Python SDK for interacting with datasets created on DataDistillr',
-        long_description=readme_file.read(),
-        long_description_content_type="text/markdown",
-        install_requires=[
-            'pandas',
-            'requests'
-        ],
-        classifiers=[
-            'Intended Audience :: Developers',
-            'Intended Audience :: System Administrators',
-            'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: Apache Software License',
-            'Programming Language :: Python',
-            'Programming Language :: Python :: 3',
-            'Programming Language :: SQL',
-            'Operating System :: OS Independent',
-            'Topic :: Database'
-        ]
-    )
+from setuptools import setup
 
-
-def main():
-    """
-    Setup for package.
-    """
-    setup(**setup_args)
-
-
-if __name__ == '__main__':
-    main()
+setup(
+    name='datadistillr',
+    version='0.1.2',
+    author='Charles Givre',
+    author_email='charles@datadistillr.com',
+    packages=['datadistillr', 'datadistillr.*'],
+    url='https://github.com/datadistillr/datadistillr-python-sdk',
+    license="Apache",
+    description='A Python SDK for interacting with datasets created on DataDistillr',
+    long_description=open('README.md', encoding="utf8").read(),
+    long_description_content_type="text/markdown",
+    install_requires=[
+        'pandas',
+        'requests'
+    ],
+    classifiers=[
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: SQL',
+        'Operating System :: OS Independent',
+        'Topic :: Database'
+    ]
+)
