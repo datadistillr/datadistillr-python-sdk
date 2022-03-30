@@ -19,15 +19,15 @@ with open('README.md', encoding="utf8") as readme_file:
         version='0.1.2',
         author='Charles Givre',
         author_email='charles@datadistillr.com',
-        packages=find_packages(include=['datadistillr', 'datadistillr.*']),
+        packages=find_packages(include=['datadistillr', 'datadistillr/*.py']),
         url='https://github.com/datadistillr/datadistillr-python-sdk',
         license="Apache",
         description='A Python SDK for interacting with datasets created on DataDistillr',
         long_description=readme_file.read(),
         long_description_content_type="text/markdown",
         install_requires=[
-            "pandas",
-            "requests"
+            'pandas',
+            'requests'
         ],
         classifiers=[
             'Intended Audience :: Developers',
