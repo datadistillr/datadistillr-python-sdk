@@ -22,6 +22,10 @@ from DataDistillr for use in machine learning.
 * `get_project(project_name)`:  Finds project with project_name and returns Project object.
 * `get_organizations()`:  Returns list organizations that you have access.
 
+#### Project
+* `get_tab(tab_name)`: Gets query results of given tab in project.
+* `query(tab_name, sql_statement)`:  Runs query and returns result of query.
+
 ### Getting your Endpoint URL and Authorization Token
 See https://docs.datadistillr.com/ddr/ for complete documentation on obtaining the URL and Auth Token.
 
