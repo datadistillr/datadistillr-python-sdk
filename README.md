@@ -16,15 +16,18 @@ from DataDistillr for use in machine learning.
 * `get_dict_from_api(url, auth_token, filename)`:  Pulls your data and returns it in a Python dictionary.
 
 #### DatadistillrAccount
-* `login(email, password)`: Logs you in to DataDistillr account.
 * `logout()`:  Logs you out of DataDistillr account.
 * `get_projects()`:  Returns all projects in DataDistillr account as a list of Project objects.
-* `get_project(project_name)`:  Finds project with project_name and returns Project object.
-* `get_organizations()`:  Returns list organizations that you have access.
+* `get_project_token_dict()`: Returns dictionary with project tokens as keys and project names as values.
+* `get_project(project_token)`:  Returns project object identified by project_token.
+* `get_organizations()`:  Returns list organizations that DataDistillr account has access to.
 
 #### Project
-* `get_tab(tab_name)`: Gets query results of given tab in project.
-* `query(tab_name, sql_statement)`:  Runs query and returns result of query.
+* `get_query_barrel_token_dict()`: Returns dictionary with query barrel tokens as keys and query barrel names as values. A query barrel is equivalent to a tab in the DataDistillr user interface.
+* `execute_existing_query(barrel_token)`: Executes most recent query in query barrel.
+* `execute_new_query(query_barrel_name, query)`: Creates new query barrel named query_barrel_name and executes query in new query barrel.
+* `upload_files(data_source_token, file_paths)`: Uploads list of files to a data source.
+* `get_data_source_token_dict()`: Returns dictionary with data source tokens as keys and data source names as values. 
 
 ### Getting your Endpoint URL and Authorization Token
 See https://docs.datadistillr.com/ddr/ for complete documentation on obtaining the URL and Auth Token.
