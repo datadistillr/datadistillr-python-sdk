@@ -11,53 +11,49 @@ class DatadistillrAccount:
     This is a class for getting account level data from Datadistillr account.
 
     Attributes:
-            email (string): The email linked to Datadistillr account.
-            password (string): The password linked to Datadistillr account.
+        email (string): The email linked to Datadistillr account.
+        password (string): The password linked to Datadistillr account.
     """
 
     BASE_URL = "https://app.datadistillr.io/api/"
     LOGIN_PAGE = BASE_URL + "login"
     ORGANIZATIONS_LIST = BASE_URL + "organization"
     LOGOUT_PAGE = BASE_URL + 'logout'
+    PROJECT_DISTILLRY = BASE_URL + "projectDistillry"
 
     def __init__(self, email, password):
         """
-        The constructor for Datadistillr class. Creates a session.
+        The constructor for the DatadistillrAccount class. Creates a session.
 
         Parameters:
             email (string): The email linked to Datadistillr account.
             password (string): The password linked to Datadistillr account.
         """
-
         requests.packages.urllib3.disable_warnings()
         # stores cookies, so you can make requests without multiple logins (pass around cookie)
         self.session = requests.Session()
         self.email = email
         self.password = password
-        self.login_resp_json = self.login(self.email, self.password)
+        self.login_resp_json = self._login()
         self.is_logged_in = self.login_resp_json["loggedIn"]
+        self.proj_token_dict = {}
 
-    def login(self, email, password):
+    def _login(self):
         """
         Login and authenticate to DataDistillr.
-
-        Parameters:
-            email (string): The email linked to account.
-            password (string): The password linked to account.
 
         Returns:
             json: A json containing account details and login status.
         """
 
         user_info = {
-            "email": email,
-            "password": password,
+            "email": self.email,
+            "password": self.password,
             "invitations": {
                 "organizationInvitationToken": None,
                 "projectInvitationToken": None,
                 "teamInvitationToken": None}
         }
-
         login_response = self.session.post(url=self.LOGIN_PAGE, json=user_info, verify=False)
         login_resp_json = login_response.json()
         return login_resp_json
@@ -75,18 +71,18 @@ class DatadistillrAccount:
         self.is_logged_in = logout_resp_json["loggedIn"]
         return logout_resp_json
 
-    def get_projects(self):
+    def get_project_token_dict(self):
         """
-        Gets all projects in DataDistillr account.
+        Returns dictionary with project tokens as keys and project names as values.
 
         Returns:
-            list<project>: A list of project objects
+            dictionary (int -> str): dictionary with project token as key and project name as value.
         """
 
+        # check if login is correct
         if not self.is_logged_in:
             raise Exception("login is incorrect")
 
-        # URL to get project needs active org token, URL format may change
         org_token = self.login_resp_json["activeOrganization"]["token"]
         projects_page = self.BASE_URL + "organization/" + str(org_token) + "/projects"
         projects_response = self.session.get(url=projects_page, verify=False)
@@ -96,39 +92,60 @@ class DatadistillrAccount:
 
         # Gets the projects list
         proj_list = proj_resp_json["projects"]
-        proj_object_list = []
 
         for proj in proj_list:
-            # create new project object with json
-            proj_object = Project(proj, self.session)
-            proj_object_list.append(proj_object)
+            # Creates a dictionary of all projects and their tokens
+            self.proj_token_dict[proj["token"]] = proj["name"]
+        return self.proj_token_dict
 
-        return proj_object_list
-
-    def get_project(self, project_name):
+    def get_project(self, project_token):
         """
-        Gets an individual project object.
+        Returns individual project object.
 
         Parameters:
-            project_name (string): The name of a project in DataDistillr account.
+            project_token (int): Token that uniquely identifies project. A dictionary with all
+            project tokens can be found using the get_project_token_dict() function.
 
         Returns:
-            project: A project object. If project_name does not match existing projects, it returns
-            "project not found".
+            project: A project object.
+        """
+
+        # check if login is correct
+        if not self.is_logged_in:
+            return "login is incorrect"
+
+        project_details_page = self.PROJECT_DISTILLRY + "/" + str(project_token)
+        # Gets the url
+        project_details = self.session.get(url=project_details_page)
+        # Parses the response from JSON to a python dictionary
+        project_details_json = project_details.json()['project']
+        proj_object = Project(project_details_json, self.session)
+        # Returns the parsed JSON
+        return proj_object
+
+    def get_projects(self):
+        """
+        Returns all projects in DataDistillr account.
+
+        Returns:
+            list<Project>: A list of project objects.
         """
 
         if not self.is_logged_in:
             raise Exception("login is incorrect")
 
-        proj_obj_list = self.get_projects()
-        for proj_object in proj_obj_list:
-            if proj_object.name == project_name:
-                return proj_object
-        return "project not found"
+        proj_object_list = []
+
+        project_tokens = self.get_project_token_dict().keys()
+        for project_token in project_tokens:
+            proj_object = self.get_project(project_token)
+            proj_object_list.append(proj_object)
+
+        return proj_object_list
 
     def get_organizations(self):
         """
-        Gets all organizations that the user has access to.
+        Returns all organizations that the user has access to.
 
         Returns:
             list: A list of organizations that the user has access to.
