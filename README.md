@@ -23,11 +23,13 @@ from DataDistillr for use in machine learning.
 * `get_organizations()`:  Returns list organizations that DataDistillr account has access to.
 
 #### Project
-* `get_query_barrel_token_dict()`: Returns dictionary with query barrel tokens as keys and query barrel names as values. A query barrel is equivalent to a tab in the DataDistillr user interface.
-* `execute_existing_query(barrel_token)`: Executes most recent query in query barrel.
+Note: A query barrel is represented by a tab in the DataDistillr user interface.
+* `get_query_barrel_token_dict()`: Returns dictionary with query barrel tokens as keys and query barrel names as values.
+* `execute_existing_query(barrel_token)`: Executes the most recent query in the query barrel identified by barrel_token.
 * `execute_new_query(query_barrel_name, query)`: Creates new query barrel named query_barrel_name and executes query in new query barrel.
-* `upload_files(data_source_token, file_paths)`: Uploads list of files to a data source.
 * `get_data_source_token_dict()`: Returns dictionary with data source tokens as keys and data source names as values. 
+* `upload_files(data_source_token, file_paths)`: Uploads files to a data source. file_paths must be a list of absolute file path strings.
+
 
 ### Getting your Endpoint URL and Authorization Token
 See https://docs.datadistillr.com/ddr/ for complete documentation on obtaining the URL and Auth Token.
