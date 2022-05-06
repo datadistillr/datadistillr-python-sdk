@@ -23,10 +23,10 @@ class TestDatadistillrAccount(unittest.TestCase):
     MOCK_PROJ2_NAME = "Project 2"
     MOCK_PROJ2_TOKEN = 222222222
 
-    MOCK_PRO1_ROUTE_RESP = {'project': {'name': MOCK_PROJ1_NAME, 'token': MOCK_PROJ1_TOKEN}}
-    MOCK_PRO2_ROUTE_RESP = {'project': {'name': MOCK_PROJ2_NAME, 'token': MOCK_PROJ2_TOKEN}}
-    MOCK_PROJS_ROUTE_RESP = {'projects': [MOCK_PRO1_ROUTE_RESP['project'],
-                                          MOCK_PRO2_ROUTE_RESP['project']]}
+    MOCK_PROJ1_ROUTE_RESP = {'project': {'name': MOCK_PROJ1_NAME, 'token': MOCK_PROJ1_TOKEN}}
+    MOCK_PROJ2_ROUTE_RESP = {'project': {'name': MOCK_PROJ2_NAME, 'token': MOCK_PROJ2_TOKEN}}
+    MOCK_PROJS_ROUTE_RESP = {'projects': [MOCK_PROJ1_ROUTE_RESP['project'],
+                                          MOCK_PROJ2_ROUTE_RESP['project']]}
     MOCK_ORGS_ROUTE_RESP = {'organizations': [{'name': 'hidden', 'token': 880610291}]}
 
     def __init__(self, method_name: str) -> None:
@@ -74,8 +74,8 @@ class TestDatadistillrAccount(unittest.TestCase):
 
         # register mock response
         responses.add(responses.GET, projs_route, json=self.MOCK_PROJS_ROUTE_RESP, status=200)
-        responses.add(responses.GET, proj1_route, json=self.MOCK_PRO1_ROUTE_RESP, status=200)
-        responses.add(responses.GET, proj2_route, json=self.MOCK_PRO2_ROUTE_RESP, status=200)
+        responses.add(responses.GET, proj1_route, json=self.MOCK_PROJ1_ROUTE_RESP, status=200)
+        responses.add(responses.GET, proj2_route, json=self.MOCK_PROJ2_ROUTE_RESP, status=200)
 
         # test get_projects() function
         projects = self.datadistillr_account.get_projects()
@@ -110,7 +110,7 @@ class TestDatadistillrAccount(unittest.TestCase):
         proj1_route = self.PROJECT_DISTILLRY_ROUTE + "/" + str(self.MOCK_PROJ1_TOKEN)
 
         # register mock response
-        responses.add(responses.GET, proj1_route, json=self.MOCK_PRO1_ROUTE_RESP, status=200)
+        responses.add(responses.GET, proj1_route, json=self.MOCK_PROJ1_ROUTE_RESP, status=200)
 
         # test get_project() function
         project = self.datadistillr_account.get_project(self.MOCK_PROJ1_TOKEN)

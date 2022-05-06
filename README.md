@@ -23,10 +23,10 @@ from DataDistillr for use in machine learning.
 * `get_organizations()`:  Returns list organizations that DataDistillr account has access to.
 
 #### Project
-Note: A query barrel is represented by a tab in the DataDistillr user interface.
-* `get_query_barrel_token_dict()`: Returns dictionary with query barrel tokens as keys and query barrel names as values.
-* `execute_existing_query(barrel_token)`: Executes the most recent query in the query barrel identified by barrel_token.
-* `execute_new_query(query_barrel_name, query)`: Creates new query barrel named query_barrel_name and executes query in new query barrel.
+Note: A tab in the DataDistillr user interface is equivalent to a query barrel in API routes and responses. All public functions use the phrasing "tab" while all private functions use "query barrel"
+* `get_tab_token_dict()`: Returns dictionary with tab tokens as keys and tab names as values.
+* `execute_existing_query(tab_token)`: Executes the most recent query in the tab identified by tab_token.
+* `execute_new_query(tab_name, query)`: Creates new tab named tab_name and executes query in new tab.
 * `get_data_source_token_dict()`: Returns dictionary with data source tokens as keys and data source names as values. 
 * `upload_files(data_source_token, file_paths)`: Uploads files to a data source. file_paths must be a list of absolute file path strings.
 
