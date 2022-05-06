@@ -211,7 +211,7 @@ class TestProject(unittest.TestCase):
         Tests that upload_files() uploads files successfully
         """
 
-        mock_file_paths = ["weekdays.csv", "months.csv"]
+        mock_file_paths = ["datadistillr/tests/weekdays.csv", "datadistillr/tests/months.csv"]
         mock_files_to_upload = {'files': [{'name': 'weekdays.csv', 'size': 81, 'type': 'text/csv',
                                            'path': '/'},
                                           {'name': 'months.csv', 'size': 113, 'type': 'text/csv',
