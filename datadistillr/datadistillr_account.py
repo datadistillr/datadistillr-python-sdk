@@ -55,7 +55,6 @@ class DatadistillrAccount:
                 "teamInvitationToken": None}
         }
         login_response = self.session.post(url=self.LOGIN_PAGE, json=user_info, verify=False)
-        print("USER INFO", user_info)
         login_resp_json = login_response.json()
         return login_resp_json
 
