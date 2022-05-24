@@ -30,9 +30,8 @@ Note: A tab in the DataDistillr user interface is equivalent to a query barrel i
 * `execute_existing_query(tab_token)`: Executes the most recent query in the tab identified by tab_token.
 * `execute_new_query(tab_name, query)`: Creates new tab named tab_name and executes query in new tab.
 * `get_data_source_token_dict()`: Returns dictionary with data source tokens as keys and data source names as values.
-* `get_data_source_token(datasource_name)`: Returns data source token that matches data_source_name
+* `get_data_source_token(data_source_name)`: Returns data source token that matches data_source_name
 * `upload_files(data_source_token, file_paths)`: Uploads files to a data source. file_paths must be a list of absolute file path strings.
-
 
 
 ### Getting your Endpoint URL and Authorization Token
