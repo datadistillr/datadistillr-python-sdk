@@ -54,6 +54,20 @@ class Project:
             self.barrel_token_dict[query_barrel["token"]] = query_barrel["name"]
         return self.barrel_token_dict
 
+    def get_tab_token(self, tab_name):
+        """
+        Returns tab token that matches tab_name
+
+        Returns:
+            int: tab token
+        """
+
+        tab_token_dict = self.get_tab_token_dict()
+        for token, name in tab_token_dict.items():
+            if tab_name == name:
+                return token
+        raise Exception("token not found")
+
     def _get_recent_query_token(self, barrel_token):
         """
         Returns token of most recent query in query barrel.
@@ -239,6 +253,20 @@ class Project:
         for data_source in data_sources:
             self.data_source_token_dict[data_source["token"]] = data_source["name"]
         return self.data_source_token_dict
+
+    def get_data_source_token(self, data_source_name):
+        """
+        Returns data source token that matches data_source_name
+
+        Returns:
+            int: data source token
+        """
+
+        data_source_token_dict = self.get_data_source_token_dict()
+        for token, name in data_source_token_dict.items():
+            if data_source_name == name:
+                return token
+        raise Exception("token not found")
 
     def _get_presigned_urls(self, data_source_token, file_paths):
         """

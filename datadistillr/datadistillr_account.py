@@ -98,6 +98,20 @@ class DatadistillrAccount:
             self.proj_token_dict[proj["token"]] = proj["name"]
         return self.proj_token_dict
 
+    def get_project_token(self, project_name):
+        """
+        Returns project token that matches project_name
+
+        Returns:
+            int: project token
+        """
+
+        proj_token_dict = self.get_project_token_dict()
+        for token, name in proj_token_dict.items():
+            if project_name == name:
+                return token
+        raise Exception("token not found")
+
     def get_project(self, project_token):
         """
         Returns individual project object.

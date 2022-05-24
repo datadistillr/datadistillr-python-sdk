@@ -16,8 +16,10 @@ class TestDatadistillrAccount(unittest.TestCase):
     BASE_URL = "https://app.datadistillr.io/api/"
     ORGANIZATIONS_ROUTE = BASE_URL + "organization"
     PROJECT_DISTILLRY_ROUTE = BASE_URL + "projectDistillry"
-
+    # Real datadistillr account information, cannot be mocked because of authentication limitations
     MOCK_ORG_TOKEN = 880610291
+
+    # Fake datadistillr account information
     MOCK_PROJ1_NAME = "Project 1"
     MOCK_PROJ1_TOKEN = 111111111
     MOCK_PROJ2_NAME = "Project 2"
@@ -80,8 +82,8 @@ class TestDatadistillrAccount(unittest.TestCase):
         # test get_projects() function
         projects = self.datadistillr_account.get_projects()
         assert all(isinstance(proj, Project) for proj in projects)
-        assert projects[0].name, self.MOCK_PROJ1_NAME
-        assert projects[1].name, self.MOCK_PROJ2_NAME
+        self.assertEqual(projects[0].name, self.MOCK_PROJ1_NAME)
+        self.assertEqual(projects[1].name, self.MOCK_PROJ2_NAME)
 
     @responses.activate
     def test_get_project_token_dict(self):
@@ -96,10 +98,25 @@ class TestDatadistillrAccount(unittest.TestCase):
 
         # test get_project_token_dict() function
         project_token_dict = self.datadistillr_account.get_project_token_dict()
-        project_tokens = project_token_dict.keys()
-        project_names = project_token_dict.values()
-        assert project_tokens, [self.MOCK_PROJ1_TOKEN, self.MOCK_PROJ2_TOKEN]
-        assert project_names, [self.MOCK_PROJ1_NAME, self.MOCK_PROJ2_NAME]
+        project_tokens = list(project_token_dict.keys())
+        project_names = list(project_token_dict.values())
+        self.assertEqual(project_tokens, [self.MOCK_PROJ1_TOKEN, self.MOCK_PROJ2_TOKEN])
+        self.assertEqual(project_names, [self.MOCK_PROJ1_NAME, self.MOCK_PROJ2_NAME])
+
+    @responses.activate
+    def test_get_project_token(self):
+        """
+        Tests that get_project_token() returns token matching project name
+        """
+
+        projs_route = self.BASE_URL + "organization/" + str(self.MOCK_ORG_TOKEN) + "/projects"
+
+        # register mock response
+        responses.add(responses.GET, projs_route, json=self.MOCK_PROJS_ROUTE_RESP, status=200)
+
+        # test get_project_token() function
+        project_token = self.datadistillr_account.get_project_token(self.MOCK_PROJ1_NAME)
+        self.assertEqual(project_token, self.MOCK_PROJ1_TOKEN)
 
     @responses.activate
     def test_get_project(self):
@@ -115,7 +132,7 @@ class TestDatadistillrAccount(unittest.TestCase):
         # test get_project() function
         project = self.datadistillr_account.get_project(self.MOCK_PROJ1_TOKEN)
         self.assertIsInstance(project, Project)
-        assert project.name, self.MOCK_PROJ1_NAME
+        self.assertEqual(project.name, self.MOCK_PROJ1_NAME)
 
     @responses.activate
     def test_get_organizations(self):
@@ -129,4 +146,4 @@ class TestDatadistillrAccount(unittest.TestCase):
 
         # test get_organizations() function
         organizations = self.datadistillr_account.get_organizations()
-        assert organizations, self.MOCK_ORGS_ROUTE_RESP['organizations']
+        self.assertEqual(organizations, self.MOCK_ORGS_ROUTE_RESP['organizations'])
