@@ -55,6 +55,7 @@ class DatadistillrAccount:
                 "teamInvitationToken": None}
         }
         login_response = self.session.post(url=self.LOGIN_PAGE, json=user_info, verify=False)
+        print("USER INFO", user_info)
         login_resp_json = login_response.json()
         return login_resp_json
 
@@ -97,6 +98,20 @@ class DatadistillrAccount:
             # Creates a dictionary of all projects and their tokens
             self.proj_token_dict[proj["token"]] = proj["name"]
         return self.proj_token_dict
+
+    def get_project_token(self, project_name):
+        """
+        Returns project token that matches project_name
+
+        Returns:
+            int: project token
+        """
+
+        proj_token_dict = self.get_project_token_dict()
+        for token, name in proj_token_dict.items():
+            if project_name == name:
+                return token
+        raise Exception("token not found")
 
     def get_project(self, project_token):
         """

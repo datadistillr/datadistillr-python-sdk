@@ -12,22 +12,24 @@ class TestProject(unittest.TestCase):
     """
     This class is for testing the Project class.
     """
-
-    # Actual project in datadistillr account, cannot be mocked because of authentication limitations
-    MOCK_PROJECT_NAME = "Test Project 2"
-    MOCK_PROJECT_TOKEN = 347151952
-
     BASE_URL = "https://app.datadistillr.io/api/"
     QUERY_BARRELS_ROUTE = BASE_URL + "queryBarrels"
     QUERY_RESULTS_ROUTE = BASE_URL + "queryResults"
     PROJECT_ROUTE = BASE_URL + "project"
     DATA_SOURCE_ROUTE = BASE_URL + "dataSource"
 
+    # Real datadistillr account information, cannot be mocked because of authentication limitations
+    MOCK_PROJECT_NAME = "Test Project 2"
+    MOCK_PROJECT_TOKEN = 347151952
+    MOCK_TAB_NAME = "months"
+    MOCK_TAB_TOKEN = 298294315
+
+    # Fake datadistillr account information
     MOCK_BARREL_TOKEN = 111111111
     MOCK_QUERY_TOKEN = 222222222
     MOCK_RUN_REQUEST_TOKEN = 333333333
-    MOCK_DATASOURCE_TOKEN = 5555555
-
+    MOCK_DATASOURCE_TOKEN = 444444444
+    MOCK_DATASOURCE_NAME = "data source"
 
     QUERY_RUN_ROUTE = QUERY_BARRELS_ROUTE + "/" + str(MOCK_BARREL_TOKEN) + "/query/" + \
         str(MOCK_QUERY_TOKEN) + "/run"
@@ -69,7 +71,7 @@ class TestProject(unittest.TestCase):
     @responses.activate
     def test_get_tab_token_dict(self):
         """
-         Tests that get_tab_token_dict() returns dictionary of integers and strings.
+        Tests that get_tab_token_dict() returns dictionary of integers and strings.
         """
 
         tab_token_dict = self.project.get_tab_token_dict()
@@ -78,6 +80,16 @@ class TestProject(unittest.TestCase):
 
         assert all(isinstance(token, int) for token in tokens)
         assert all(isinstance(name, str) for name in names)
+
+    @responses.activate
+    def test_get_tab_token(self):
+        """
+        Tests that get_tab_token() returns token matching tab name
+        """
+
+        # test get_tab_token() function
+        tab_token = self.project.get_tab_token(self.MOCK_TAB_NAME)
+        self.assertEqual(tab_token, self.MOCK_TAB_TOKEN)
 
     @responses.activate
     def test_execute_existing_query(self):
@@ -117,10 +129,10 @@ class TestProject(unittest.TestCase):
 
         # testing execute_existing_query function
         query_results_df = self.project.execute_existing_query(self.MOCK_BARREL_TOKEN)
-        assert type(query_results_df).__name__ == 'DataFrame'
-        assert query_results_df['Index'].count(), 3
-        assert query_results_df['Month'].count(), 3
-        assert query_results_df.shape, (3, 2)
+        self.assertEqual(type(query_results_df).__name__, 'DataFrame')
+        self.assertEqual(query_results_df['Index'].count(), 3)
+        self.assertEqual(query_results_df['Month'].count(), 3)
+        self.assertEqual(query_results_df.shape, (3, 2))
 
     @responses.activate
     def test_execute_new_query(self):
@@ -174,18 +186,18 @@ class TestProject(unittest.TestCase):
 
         # testing execute_existing_query function
         query_results_df = self.project.execute_new_query(mock_query_barrel_name, mock_query)
-        assert type(query_results_df).__name__ == 'DataFrame'
-        assert query_results_df['Index'].count(), 3
-        assert query_results_df['Month'].count(), 3
-        assert query_results_df.shape, (3, 2)
+        self.assertEqual(type(query_results_df).__name__, 'DataFrame')
+        self.assertEqual(query_results_df['Index'].count(), 3)
+        self.assertEqual(query_results_df['Month'].count(), 3)
+        self.assertEqual(query_results_df.shape, (3, 2))
 
     @responses.activate
     def test_get_data_source_token_dict(self):
         """
         Tests that get_data_source_token_dict() returns dictionary with expected tokens and names
         """
-        mock_data_source_name = "data source"
-        mock_data_sources_route_resp = {'dataSources': [{'name': mock_data_source_name,
+
+        mock_data_sources_route_resp = {'dataSources': [{'name': self.MOCK_DATASOURCE_NAME,
                                                          'token': self.MOCK_DATASOURCE_TOKEN}]}
 
         data_source_route = self.PROJECT_ROUTE + "/" + str(self.MOCK_PROJECT_TOKEN) + "/dataSource"
@@ -200,10 +212,33 @@ class TestProject(unittest.TestCase):
 
         # test get_data_source_token_dict() function
         data_source_token_dict = self.project.get_data_source_token_dict()
-        data_source_tokens = data_source_token_dict.keys()
-        data_source_names = data_source_token_dict.values()
-        assert data_source_tokens, [self.MOCK_DATASOURCE_TOKEN]
-        assert data_source_names, [mock_data_source_name]
+        data_source_tokens = list(data_source_token_dict.keys())
+        data_source_names = list(data_source_token_dict.values())
+        self.assertEqual(data_source_tokens, [self.MOCK_DATASOURCE_TOKEN])
+        self.assertEqual(data_source_names, [self.MOCK_DATASOURCE_NAME])
+
+    @responses.activate
+    def test_get_data_source_token(self):
+        """
+        Tests that get_data_source_token() returns token matching data source name
+        """
+
+        mock_data_sources_route_resp = {'dataSources': [{'name': self.MOCK_DATASOURCE_NAME,
+                                                         'token': self.MOCK_DATASOURCE_TOKEN}]}
+
+        data_source_route = self.PROJECT_ROUTE + "/" + str(self.MOCK_PROJECT_TOKEN) + "/dataSource"
+
+        # register mock response
+        responses.add(
+            method=responses.GET,
+            url=data_source_route,
+            json=mock_data_sources_route_resp,
+            status=200
+        )
+
+        # test get_data_source_token() function
+        data_source_token = self.project.get_data_source_token(self.MOCK_DATASOURCE_NAME)
+        self.assertEqual(data_source_token, self.MOCK_DATASOURCE_TOKEN)
 
     @responses.activate
     def test_upload_files(self):
@@ -260,4 +295,4 @@ class TestProject(unittest.TestCase):
 
         # test test_upload_files() function
         upload_file_resp = self.project.upload_files(self.MOCK_DATASOURCE_TOKEN, mock_file_paths)
-        assert upload_file_resp, 'file uploaded successfully'
+        self.assertEqual(upload_file_resp, 'file uploaded successfully')
