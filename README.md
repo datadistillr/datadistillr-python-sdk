@@ -38,10 +38,50 @@ Note: A tab in the DataDistillr user interface is equivalent to a query barrel i
 See https://docs.datadistillr.com/ddr/ for complete documentation on obtaining the URL and Auth Token.
 
 ### Usage 
-Using the SDK in Python code is quite simple.  See the snippet below:
+Using the SDK in Python code is quite simple.  See the Examples below:
+
+Importing SDK
 ```python
-import datadistillr.Datadistillr as ddr
+import datadistillr as ddr
+```
+
+Getting data from API Access Clients
+```python
 url = <Your URL From DataDistillr>
 auth_token = <AUTH TOKEN>
-dataframe = ddr.datadistillr.get_dataframe(url, auth_token)
+dataframe = ddr.Datadistillr.get_dataframe(url, auth_token)
+```
+
+
+Logging in to a DataDistillr Account
+```python
+email = <Your Email linked to DataDistillr Account>
+password = <Your Password>
+
+ddr_account = ddr.DatadistillrAccount(email, password)
+```
+
+Getting a project object 
+```python
+project_name = <Name of project within DataDistillr Account>
+
+project_token = ddr_account.get_project_token(project_name)
+project = ddr_account.get_project(project_token)
+```
+
+Executing an existing query from a tab within a project
+```python
+tab_name = <Name of tab within project>
+
+tab_token = project.get_tab_token(tab_name)
+data_frame = project.execute_existing_query(tab_token)
+```
+
+Uploading files to a data source within a project
+```python
+data_source_name = <Name of data source within project>
+file_paths = <List of absolute file path strings of files that you want to upload>
+
+data_source_token = project.get_data_source_token(data_source_name)
+project.upload_files(data_source_token, file_paths)
 ```
