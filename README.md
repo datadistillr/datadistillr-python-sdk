@@ -6,6 +6,12 @@
 This library allows you to programmatically interact with DataDistillr.  It is quite simple to programmatically pull data 
 from DataDistillr for use in machine learning. 
 
+## Installing the SDK
+The DataDistillr Python SDK is [available on Pypi](https://pypi.org/project/datadistillr/).  You can install it with pip as shown below:
+```
+pip install datadistillr
+```
+
 ### Methods
 #### Datadistillr
 * `get_dataframe(url, auth_token)`: Pulls your data and returns it in a Pandas DataFrame.
