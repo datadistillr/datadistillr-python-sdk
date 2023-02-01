@@ -17,7 +17,7 @@ this_directory = Path(__file__).parent
 
 setup_args = dict(
     name='datadistillr',
-    version='1.0.0',
+    version='1.0.1',
     author='Charles Givre, Amanda Ha, Andrea Ha, Sanaa Mironov',
     author_email='charles@datadistillr.com',
     packages=find_packages(include=['datadistillr', 'datadistillr.*']),
