@@ -1,8 +1,5 @@
 # DataDistillr Python SDK
 
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/datadistillr/datadistillr-python-sdk.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/datadistillr/datadistillr-python-sdk/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/datadistillr/datadistillr-python-sdk.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/datadistillr/datadistillr-python-sdk/context:python)
-
 This library allows you to programmatically interact with DataDistillr.  It is quite simple to programmatically pull data 
 from DataDistillr for use in machine learning. 
 
